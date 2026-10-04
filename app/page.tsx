@@ -78,8 +78,14 @@ const capabilities = [
   { title: 'Measurable Results', icon: TrendingUp },
 ];
 
-const togetherPillars = [
-  { name: 'JJETT Consulting', tone: 'gold', items: ['Strategy & Planning', 'Operational Expertise', 'Change & Implementation'] },
+// The JJETT logo is JJETT's own white mark from jjett.co.za, used unaltered.
+const togetherPillars: { name: string; tone: string; logo?: string; items: string[] }[] = [
+  {
+    name: 'JJETT Consulting',
+    tone: 'gold',
+    logo: '/images/jjett/jjett-mark-white.png',
+    items: ['Strategy & Planning', 'Operational Expertise', 'Change & Implementation'],
+  },
   { name: 'VYRONSOFT', tone: 'blue', items: ['Intelligent Software', 'Industry Solutions', 'Ongoing Support'] },
 ];
 
@@ -230,24 +236,35 @@ export default function HomePage() {
               </div>
 
               <article className="jjett-card" data-reveal style={{ '--delay': '120ms' } as CSSProperties} aria-labelledby="jjett-title">
-                {/* No official JJETT logo asset is available, so the name is set as text rather than redrawn. */}
-                <h3 id="jjett-title" className="jjett-name">
-                  JJETT<span className="jjett-tm">™</span> <span className="jjett-name-sub">Consulting</span>
-                </h3>
-                <p className="jjett-tagline">Strategic Thinking. Practical Execution.</p>
-                <p className="jjett-text">
+                {/* JJETT's own hero artwork (from jjett.co.za), shown uncropped: it already carries the real
+                    JJETT logo and tagline, so no second logo is layered over it. */}
+                <div className="jjett-media">
+                  <Image
+                    src="/images/jjett/jjett-hero.png"
+                    alt="The JJETT logo and the words Strategic Thinking. Practical Execution. beside a black-and-white topographic map of the Cape Peninsula."
+                    fill
+                    sizes="(max-width: 900px) 100vw, 560px"
+                    className="jjett-image"
+                  />
+                </div>
+                <div className="jjett-body">
+                  <h3 id="jjett-title" className="jjett-name">
+                    JJETT<span className="jjett-tm">™</span> Consulting
+                  </h3>
+                  <p className="jjett-text">
                   Bespoke business solutions built around the realities of your organisation — from identifying
                   opportunities and designing practical solutions to implementing and supporting measurable business
                   improvements.
-                </p>
-                <a href={JJETT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-gold btn-lg jjett-cta">
-                  Explore JJETT Consulting
-                  <span className="sr-only">{NEW_TAB}</span>
-                  <ArrowRight aria-hidden="true" size={18} />
-                </a>
-                <p className="jjett-domain" aria-hidden="true">
-                  www.jjett.co.za
-                </p>
+                  </p>
+                  <a href={JJETT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-gold btn-lg jjett-cta">
+                    Explore JJETT Consulting
+                    <span className="sr-only">{NEW_TAB}</span>
+                    <ArrowRight aria-hidden="true" size={18} />
+                  </a>
+                  <p className="jjett-domain" aria-hidden="true">
+                    www.jjett.co.za
+                  </p>
+                </div>
               </article>
             </div>
 
@@ -269,7 +286,13 @@ export default function HomePage() {
                       </span>
                     )}
                     <div className={`together-pillar together-pillar-${pillar.tone}`}>
-                      <p className="together-pillar-name">{pillar.name}</p>
+                      {pillar.logo ? (
+                        <p className="together-pillar-name together-pillar-logo">
+                          <Image src={pillar.logo} alt={pillar.name} width={1248} height={258} sizes="160px" />
+                        </p>
+                      ) : (
+                        <p className="together-pillar-name">{pillar.name}</p>
+                      )}
                       <ul>
                         {pillar.items.map((item) => (
                           <li key={item}>{item}</li>
