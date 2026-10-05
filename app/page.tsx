@@ -81,7 +81,7 @@ const capabilities = [
 // The JJETT logo is JJETT's own white mark from jjett.co.za, used unaltered.
 const togetherPillars: { name: string; tone: string; logo?: string; items: string[] }[] = [
   {
-    name: 'JJETT Consulting',
+    name: 'JJETT',
     tone: 'gold',
     logo: '/images/jjett/jjett-mark-white.png',
     items: ['Strategy & Planning', 'Operational Expertise', 'Change & Implementation'],
@@ -218,7 +218,7 @@ export default function HomePage() {
                   <span className="strategy-line strategy-line-accent">The right strategy makes it work.</span>
                 </h2>
                 <p className="section-lead">
-                  VYRONSOFT works alongside JJETT Consulting to combine intelligent technology with practical business
+                  VYRONSOFT works alongside JJETT to combine intelligent technology with practical business
                   expertise — helping organisations identify opportunities, solve operational challenges and implement
                   solutions that deliver measurable results.
                 </p>
@@ -249,15 +249,15 @@ export default function HomePage() {
                 </div>
                 <div className="jjett-body">
                   <h3 id="jjett-title" className="jjett-name">
-                    JJETT<span className="jjett-tm">™</span> Consulting
+                    JJETT<span className="jjett-tm">™</span>
                   </h3>
+                  <p className="jjett-tagline">Outcome Based Solutions.</p>
                   <p className="jjett-text">
-                  Bespoke business solutions built around the realities of your organisation — from identifying
-                  opportunities and designing practical solutions to implementing and supporting measurable business
-                  improvements.
+                    We start with the real business problem, design a bespoke solution around it, bring the people,
+                    resources and technology to deliver it — and stay accountable until the results are measurable.
                   </p>
                   <a href={JJETT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-gold btn-lg jjett-cta">
-                    Explore JJETT Consulting
+                    Explore JJETT
                     <span className="sr-only">{NEW_TAB}</span>
                     <ArrowRight aria-hidden="true" size={18} />
                   </a>

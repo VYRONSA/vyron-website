@@ -794,6 +794,16 @@ img {
   letter-spacing: 0;
 }
 
+.jjett-tagline {
+  margin-top: 12px;
+  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  color: var(--text);
+}
+
 .jjett-text {
   margin-top: 14px;
   font-size: 1rem;
