@@ -296,22 +296,6 @@ img {
   transform: scaleX(1);
 }
 
-/* JJETT links out to jjett.co.za: a subtle gold accent on hover/focus nods to its branding. */
-.primary-nav a.nav-external::after {
-  background: linear-gradient(90deg, #e3b45c, #f5cd7e);
-}
-
-.primary-nav a.nav-external:hover,
-.primary-nav a.nav-external:focus-visible,
-.mobile-menu a.nav-external:hover,
-.mobile-menu a.nav-external:focus-visible {
-  color: #f5cd7e;
-}
-
-.primary-nav a.nav-external:focus-visible::after {
-  transform: scaleX(1);
-}
-
 .menu-toggle {
   display: none;
   width: 44px;

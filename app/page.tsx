@@ -220,53 +220,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* OUR CLIENTS */}
-        <section id="clients" className="section clients" aria-labelledby="clients-title">
-          <div className="container">
-            <header className="section-head" data-reveal>
-              <p className="eyebrow">Our Clients</p>
-              <h2 id="clients-title" className="section-title">
-                Businesses powered by VYRONSOFT technology
-              </h2>
-              <p className="section-lead">
-                A growing community of businesses using VYRONSOFT technology to improve operations, manage people,
-                control costs and make better business decisions.
-              </p>
-            </header>
-
-            <ul className="client-grid">
-              {clients.map((client, index) => {
-                const mark = client.logo ? (
-                  <Image src={client.logo} alt={client.name} width={220} height={80} className="client-logo" />
-                ) : (
-                  <span className="client-name">{client.name}</span>
-                );
-                return (
-                  <li
-                    key={client.name}
-                    className="client-tile"
-                    style={{ '--delay': `${(index % 4) * 70}ms` } as CSSProperties}
-                    data-reveal
-                  >
-                    {client.href ? (
-                      <a href={client.href} target="_blank" rel="noopener noreferrer" className="client-inner client-link">
-                        {mark}
-                        <span className="client-domain">
-                          {client.domain}
-                          <span className="sr-only">{NEW_TAB}</span>
-                          <ArrowUpRight aria-hidden="true" size={14} />
-                        </span>
-                      </a>
-                    ) : (
-                      <div className="client-inner">{mark}</div>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </section>
-
         {/* STRATEGIC BUSINESS SERVICES (JJETT) */}
         <section id="strategy" className="section strategy" aria-labelledby="strategy-title">
           <div className="container">
@@ -450,6 +403,53 @@ export default function HomePage() {
                 </li>
               </ul>
             </div>
+          </div>
+        </section>
+
+        {/* OUR CLIENTS */}
+        <section id="clients" className="section clients" aria-labelledby="clients-title">
+          <div className="container">
+            <header className="section-head" data-reveal>
+              <p className="eyebrow">Our Clients</p>
+              <h2 id="clients-title" className="section-title">
+                Businesses powered by VYRONSOFT technology
+              </h2>
+              <p className="section-lead">
+                A growing community of businesses using VYRONSOFT technology to improve operations, manage people,
+                control costs and make better business decisions.
+              </p>
+            </header>
+
+            <ul className="client-grid">
+              {clients.map((client, index) => {
+                const mark = client.logo ? (
+                  <Image src={client.logo} alt={client.name} width={220} height={80} className="client-logo" />
+                ) : (
+                  <span className="client-name">{client.name}</span>
+                );
+                return (
+                  <li
+                    key={client.name}
+                    className="client-tile"
+                    style={{ '--delay': `${(index % 4) * 70}ms` } as CSSProperties}
+                    data-reveal
+                  >
+                    {client.href ? (
+                      <a href={client.href} target="_blank" rel="noopener noreferrer" className="client-inner client-link">
+                        {mark}
+                        <span className="client-domain">
+                          {client.domain}
+                          <span className="sr-only">{NEW_TAB}</span>
+                          <ArrowUpRight aria-hidden="true" size={14} />
+                        </span>
+                      </a>
+                    ) : (
+                      <div className="client-inner">{mark}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </section>
       </main>
