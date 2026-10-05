@@ -5,12 +5,18 @@ import { ArrowRight, Menu, X } from 'lucide-react';
 import { DEMO_MAILTO } from '../_data/site';
 import Wordmark from './Wordmark';
 
-const navItems = [
+type NavItem = { label: string; id: string; href?: string };
+
+// JJETT links out to its own site in a new tab; it is not an in-page section.
+const navItems: NavItem[] = [
   { label: 'Home', id: 'home' },
   { label: 'Ecosystem', id: 'ecosystem' },
+  { label: 'JJETT', id: 'jjett', href: 'https://www.jjett.co.za' },
   { label: 'About Us', id: 'about' },
   { label: 'Contact', id: 'contact' },
 ];
+
+const NEW_TAB = ' (opens in a new tab)';
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -28,6 +34,7 @@ export default function SiteHeader() {
   // Highlight the nav item for the section currently in view.
   useEffect(() => {
     const sections = navItems
+      .filter((item) => !item.href)
       .map((item) => document.getElementById(item.id))
       .filter((el): el is HTMLElement => el !== null);
     const observer = new IntersectionObserver(
@@ -72,9 +79,16 @@ export default function SiteHeader() {
           <ul>
             {navItems.map((item) => (
               <li key={item.id}>
-                <a href={`#${item.id}`} aria-current={active === item.id ? 'location' : undefined}>
-                  {item.label}
-                </a>
+                {item.href ? (
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" className="nav-external">
+                    {item.label}
+                    <span className="sr-only">{NEW_TAB}</span>
+                  </a>
+                ) : (
+                  <a href={`#${item.id}`} aria-current={active === item.id ? 'location' : undefined}>
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
@@ -101,13 +115,26 @@ export default function SiteHeader() {
         <ul className="container">
           {navItems.map((item) => (
             <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                aria-current={active === item.id ? 'location' : undefined}
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </a>
+              {item.href ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nav-external"
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                  <span className="sr-only">{NEW_TAB}</span>
+                </a>
+              ) : (
+                <a
+                  href={`#${item.id}`}
+                  aria-current={active === item.id ? 'location' : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </a>
+              )}
             </li>
           ))}
           <li>

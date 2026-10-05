@@ -68,6 +68,19 @@ const trustItems = [
 
 const NEW_TAB = ' (opens in a new tab)';
 
+// No client logos have been supplied yet, so each client is shown by name; add `logo` once an
+// authentic asset is provided. `href` is only set for client websites that have been confirmed.
+const clients: { name: string; href?: string; domain?: string; logo?: string }[] = [
+  { name: 'Cutting Edge Cuisine' },
+  { name: 'Mama Yama' },
+  { name: 'Food Socks South Africa', href: 'https://foodsock.co.za', domain: 'foodsock.co.za' },
+  { name: 'Kingdom Foods' },
+  { name: 'Handcrafted Foods' },
+  { name: 'Advanced 4x4' },
+  { name: 'NYOT' },
+  { name: 'Bridgewater Logistics' },
+];
+
 // JJETT is a business-services collaborator, not a VYRONSOFT platform: keep it out of `platforms`.
 const JJETT_URL = 'https://www.jjett.co.za';
 
@@ -203,6 +216,53 @@ export default function HomePage() {
                   </a>
                 </li>
               ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* OUR CLIENTS */}
+        <section id="clients" className="section clients" aria-labelledby="clients-title">
+          <div className="container">
+            <header className="section-head" data-reveal>
+              <p className="eyebrow">Our Clients</p>
+              <h2 id="clients-title" className="section-title">
+                Businesses powered by VYRONSOFT technology
+              </h2>
+              <p className="section-lead">
+                A growing community of businesses using VYRONSOFT technology to improve operations, manage people,
+                control costs and make better business decisions.
+              </p>
+            </header>
+
+            <ul className="client-grid">
+              {clients.map((client, index) => {
+                const mark = client.logo ? (
+                  <Image src={client.logo} alt={client.name} width={220} height={80} className="client-logo" />
+                ) : (
+                  <span className="client-name">{client.name}</span>
+                );
+                return (
+                  <li
+                    key={client.name}
+                    className="client-tile"
+                    style={{ '--delay': `${(index % 4) * 70}ms` } as CSSProperties}
+                    data-reveal
+                  >
+                    {client.href ? (
+                      <a href={client.href} target="_blank" rel="noopener noreferrer" className="client-inner client-link">
+                        {mark}
+                        <span className="client-domain">
+                          {client.domain}
+                          <span className="sr-only">{NEW_TAB}</span>
+                          <ArrowUpRight aria-hidden="true" size={14} />
+                        </span>
+                      </a>
+                    ) : (
+                      <div className="client-inner">{mark}</div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </section>
