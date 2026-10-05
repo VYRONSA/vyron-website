@@ -6,11 +6,14 @@ import {
   Award,
   Briefcase,
   Building2,
+  Cctv,
   ChartNoAxesColumnIncreasing,
   Clock,
   CloudUpload,
   Compass,
+  CookingPot,
   Cpu,
+  Croissant,
   Database,
   Factory,
   HardHat,
@@ -22,11 +25,14 @@ import {
   Settings,
   ShieldCheck,
   ShoppingCart,
+  Soup,
   Sprout,
   TrendingUp,
   Truck,
+  UtensilsCrossed,
   Wrench,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import SiteHeader from './_components/SiteHeader';
 import RevealObserver from './_components/RevealObserver';
 import Wordmark from './_components/Wordmark';
@@ -68,17 +74,88 @@ const trustItems = [
 
 const NEW_TAB = ' (opens in a new tab)';
 
-// No client logos have been supplied yet, so each client is shown by name; add `logo` once an
-// authentic asset is provided. `href` is only set for client websites that have been confirmed.
-const clients: { name: string; href?: string; domain?: string; logo?: string }[] = [
-  { name: 'Cutting Edge Cuisine' },
-  { name: 'Mama Yama' },
-  { name: 'Food Socks South Africa', href: 'https://foodsock.co.za', domain: 'foodsock.co.za' },
-  { name: 'Kingdom Foods' },
-  { name: 'Handcrafted Foods' },
-  { name: 'Advanced 4x4' },
-  { name: 'NYOT' },
-  { name: 'Bridgewater Logistics' },
+type Client = {
+  name: string;
+  description: string;
+  accent: string;
+  href?: string;
+  domain?: string;
+  // Authentic logo from the client's own website, shown at its native proportions. `screen` drops the
+  // black backing of JPEG logos so they sit on the dark stage without being recoloured.
+  logo?: { src: string; width: number; height: number; blend?: 'screen'; plate?: boolean };
+  // Photography published on the client's own website, used as a subtle background layer.
+  photo?: { src: string; position?: string };
+  products?: string[];
+  // Decorative line motif for cards without company photography; never presented as a logo.
+  motif?: LucideIcon;
+};
+
+// Descriptions and domains come from each client's own website or the details the client supplied.
+// Clients without a verified live website show "Website available on request" instead of a guessed URL.
+const clients: Client[] = [
+  {
+    name: 'Cutting Edge Cuisine',
+    description: 'Food manufacturer based in Montague Gardens, Cape Town, specialising in sushi and prepared food production.',
+    accent: '#e5484d',
+    motif: CookingPot,
+  },
+  {
+    name: 'Mama Yama',
+    description: 'Food manufacturer and distributor based in Ferndale, Randburg.',
+    accent: '#f0a63a',
+    motif: UtensilsCrossed,
+  },
+  {
+    name: 'Food Socks South Africa',
+    description: 'Affordable, nutritious soya-based meals made from locally sourced dehydrated ingredients.',
+    accent: '#8fb339',
+    href: 'https://foodsock.co.za',
+    domain: 'foodsock.co.za',
+    logo: { src: '/images/clients/foodsock-logo.png', width: 900, height: 449, plate: true },
+    motif: Soup,
+  },
+  {
+    name: 'Kingdom Foods',
+    description: 'Purpose-driven food manufacturer of scalable, nutritious feeding solutions such as VitaKidz and Maxi Blend.',
+    accent: '#e0b040',
+    href: 'https://kingdomfoods.co.za',
+    domain: 'kingdomfoods.co.za',
+    logo: { src: '/images/clients/kingdom-foods-logo.png', width: 265, height: 149 },
+    products: ['/images/clients/kingdom-foods-vitakidz.png', '/images/clients/kingdom-foods-maxi-blend.png'],
+  },
+  {
+    name: 'Handcrafted Foods',
+    description: 'Handcrafted food products, including gourmet pies, artisan croissants, preserves and frozen fresh products.',
+    accent: '#b5d334',
+    motif: Croissant,
+  },
+  {
+    name: 'Advanced 4x4',
+    description: 'South African manufacturer of 4x4 and overlanding accessories, engineered for demanding conditions.',
+    accent: '#4f9bff',
+    href: 'https://advanced4x4.co.za',
+    domain: 'advanced4x4.co.za',
+    logo: { src: '/images/clients/advanced-4x4-logo.jpg', width: 600, height: 600, blend: 'screen' },
+    photo: { src: '/images/clients/advanced-4x4-terrain.jpg', position: '50% 60%' },
+  },
+  {
+    name: 'NYOT',
+    description: 'Technology and security solutions, including CCTV, access control, biometrics, time and attendance, and VoIP.',
+    accent: '#38bdf8',
+    href: 'https://nyot.co.za',
+    domain: 'nyot.co.za',
+    logo: { src: '/images/clients/nyot-logo.jpg', width: 700, height: 700, blend: 'screen' },
+    motif: Cctv,
+  },
+  {
+    name: 'Bridgewater Logistics',
+    description: 'Full-service logistics: warehousing, distribution, full truck loads, project cargo and container transport.',
+    accent: '#3b6fe0',
+    href: 'https://bridgewaterlogistics.co.za',
+    domain: 'bridgewaterlogistics.co.za',
+    logo: { src: '/images/clients/bridgewater-logo-white.png', width: 270, height: 120 },
+    photo: { src: '/images/clients/bridgewater-fleet.jpg', position: '78% 50%' },
+  },
 ];
 
 // JJETT is a business-services collaborator, not a VYRONSOFT platform: keep it out of `platforms`.
@@ -422,30 +499,83 @@ export default function HomePage() {
 
             <ul className="client-grid">
               {clients.map((client, index) => {
-                const mark = client.logo ? (
-                  <Image src={client.logo} alt={client.name} width={220} height={80} className="client-logo" />
-                ) : (
-                  <span className="client-name">{client.name}</span>
-                );
+                const Motif = client.motif;
                 return (
                   <li
                     key={client.name}
-                    className="client-tile"
-                    style={{ '--delay': `${(index % 4) * 70}ms` } as CSSProperties}
+                    className={`client-card${client.href ? ' has-link' : ''}`}
+                    style={{ '--accent': client.accent, '--delay': `${(index % 4) * 80}ms` } as CSSProperties}
                     data-reveal
                   >
-                    {client.href ? (
-                      <a href={client.href} target="_blank" rel="noopener noreferrer" className="client-inner client-link">
-                        {mark}
-                        <span className="client-domain">
-                          {client.domain}
-                          <span className="sr-only">{NEW_TAB}</span>
-                          <ArrowUpRight aria-hidden="true" size={14} />
+                    <div className="client-stage" aria-hidden="true">
+                      {client.photo && (
+                        <Image
+                          src={client.photo.src}
+                          alt=""
+                          fill
+                          sizes="(max-width: 900px) 50vw, 320px"
+                          className="client-photo"
+                          style={{ objectPosition: client.photo.position }}
+                        />
+                      )}
+                      {client.products && (
+                        <span className="client-products">
+                          {client.products.map((src) => (
+                            <Image key={src} src={src} alt="" width={326} height={272} className="client-product" />
+                          ))}
                         </span>
-                      </a>
-                    ) : (
-                      <div className="client-inner">{mark}</div>
-                    )}
+                      )}
+                      {Motif && <Motif className="client-motif" strokeWidth={0.9} />}
+                      <span className="client-mark">
+                        {client.logo?.plate ? (
+                          <span className="client-plate">
+                            <Image
+                              src={client.logo.src}
+                              alt=""
+                              width={client.logo.width}
+                              height={client.logo.height}
+                              sizes="220px"
+                              className="client-logo"
+                            />
+                          </span>
+                        ) : client.logo ? (
+                          <Image
+                            src={client.logo.src}
+                            alt=""
+                            width={client.logo.width}
+                            height={client.logo.height}
+                            sizes="220px"
+                            className={`client-logo${client.logo.blend === 'screen' ? ' is-screen' : ''}${
+                              client.logo.width === client.logo.height ? ' is-square' : ''
+                            }`}
+                          />
+                        ) : (
+                          <span className="client-wordmark">{client.name}</span>
+                        )}
+                      </span>
+                    </div>
+
+                    <div className="client-body">
+                      <h3 className="client-name">{client.name}</h3>
+                      <p className="client-description">{client.description}</p>
+                      <p className="client-website">
+                        <span className="client-website-label">Website</span>
+                        {client.href ? (
+                          <a href={client.href} target="_blank" rel="noopener noreferrer" className="client-link">
+                            {/* Long domains may wrap before the TLD on narrow cards; the arrow stays with it. */}
+                            {client.domain?.slice(0, client.domain.indexOf('.'))}
+                            <wbr />
+                            <span className="client-tld">
+                              {client.domain?.slice(client.domain.indexOf('.'))}
+                              <span className="sr-only">{NEW_TAB}</span>
+                              <ArrowUpRight aria-hidden="true" size={14} />
+                            </span>
+                          </a>
+                        ) : (
+                          <span className="client-website-none">Website available on request</span>
+                        )}
+                      </p>
+                    </div>
                   </li>
                 );
               })}
